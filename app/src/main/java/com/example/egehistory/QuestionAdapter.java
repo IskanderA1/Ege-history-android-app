@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +60,9 @@ public class QuestionAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.MonarchNameTextView)).setText(question.getName());
 
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-        Picasso.get().load("file:///android_asset/imageMonarch/"+question.getImage()).into(imageView);
+
+        Transformation transformation = new RoundedCornersTransformation(30, 0);
+        Picasso.get().load("file:///android_asset/imageMonarch/"+question.getImage()).transform(transformation).into(imageView);
         //Picasso.get().load(new File("assets/imageMonarch"+question.getImage())).into(imageView);
         //((ImageView) view.findViewById(R.id.imageView)).setImageBitmap(question.getImage());
         return view;
