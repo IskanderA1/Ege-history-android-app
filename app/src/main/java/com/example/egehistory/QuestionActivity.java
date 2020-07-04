@@ -2,7 +2,6 @@ package com.example.egehistory;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,10 +9,13 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +31,7 @@ public class QuestionActivity extends AppCompatActivity {
 
 
     private DbModelClass DbModelClass;
-     MyDbClass mDbClass;
+    private MyDbClass mDbClass;
     private ArrayList<DbModelClass> mDbModelClassArrayList;
     private SharedPreferences mSettings;
 
@@ -39,22 +41,81 @@ public class QuestionActivity extends AppCompatActivity {
     private int curr;
     private int Score;
     private int scoreQuestion = 1;
+
+    SwipeFlingAdapterView flingContainer;
+    QuestionAdapter arrayAdapter;
+    private int i;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         getSupportActionBar().hide();
 
-        mNextButton = (Button) findViewById(R.id.NextButton);
+        mDbClass = new MyDbClass(this);
+        mDbModelClassArrayList = new ArrayList<>();
+        mDbModelClassArrayList = mDbClass.getAllData();
+
+        Log.d("Test",String.valueOf(mDbModelClassArrayList.size()));
+        //Collections.shuffle(mDbModelClassArrayList);
+        arrayAdapter = new QuestionAdapter(this, mDbModelClassArrayList);
+
+
+        flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+
+
+
+
+        flingContainer.setAdapter(arrayAdapter);
+        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+            @Override
+            public void removeFirstObjectInAdapter() {
+                // this is the simplest way to delete an object from the Adapter (/AdapterView)
+                Log.d("LIST", "removed object!");
+                mDbModelClassArrayList.remove(0);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onLeftCardExit(Object dataObject) {
+                //Do something on the left!
+                //You also have access to the original object.
+                //If you want to use it just cast it (String) dataObject
+                Toast.makeText(QuestionActivity.this, "Left!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRightCardExit(Object dataObject) {
+                Toast.makeText(QuestionActivity.this, "Right!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdapterAboutToEmpty(int itemsInAdapter) {
+                // Ask for more data here
+            }
+
+            @Override
+            public void onScroll(float scrollProgressPercent) {
+                View view = flingContainer.getSelectedView();
+                view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
+                view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
+            }
+        });
+
+
+
+        /*mNextButton = (Button) findViewById(R.id.NextButton);
         mQuestionTextView = (TextView) findViewById(R.id.nameMonarch);
-        mImportantPointTextView = (TextView) findViewById(R.id.ImportantPoints);
+        //mImportantPointTextView = (TextView) findViewById(R.id.ImportantPoints);
         mScoreTextView = (TextView) findViewById(R.id.score);
         mStartEditText = (EditText) findViewById(R.id.textInputEditStart);
-        mFinishEditText = (EditText) findViewById(R.id.textInputEditFinish);
-        mStartEditText.setInputType(InputType.TYPE_CLASS_PHONE );
-        mFinishEditText.setInputType(InputType.TYPE_CLASS_PHONE);
+        mFinishEditText = (EditText) findViewById(R.id.textInputEditFinish);*/
+/*        mStartEditText.setInputType(InputType.TYPE_CLASS_PHONE );
+        mFinishEditText.setInputType(InputType.TYPE_CLASS_PHONE);*/
 
 
+/*
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         
@@ -65,20 +126,15 @@ public class QuestionActivity extends AppCompatActivity {
         if(mSettings.contains(APP_PREFERENCES_NAME)) {
             mScoreTextView.setText(String.valueOf(mSettings.getInt(APP_PREFERENCES_NAME, 0)));
         }
-        mDbClass = new MyDbClass(this);
-        mDbModelClassArrayList = new ArrayList<>();
 
-        try{
-            mDbModelClassArrayList = mDbClass.getAllData();
-            Collections.shuffle(mDbModelClassArrayList);
-        }catch (Exception e){
-            Toast.makeText(this,"errorRead", Toast.LENGTH_SHORT).show();
-        }
 
-        if(mDbModelClassArrayList.size()>curr){
+
+*/
+
+/*        if(mDbModelClassArrayList.size()>curr){
             randomQuestion();
             mQuestionTextView.setText(DbModelClass.getName());
-            mImportantPointTextView.setText(DbModelClass.getDescription());
+            //mImportantPointTextView.setText(DbModelClass.getDescription());
             mNextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -96,7 +152,7 @@ public class QuestionActivity extends AppCompatActivity {
                             mFinishEditText.setText("");
                             randomQuestion();
                             mQuestionTextView.setText(DbModelClass.getName());
-                            mImportantPointTextView.setText(DbModelClass.getDescription());
+                            //mImportantPointTextView.setText(DbModelClass.getDescription());
                             Score+=scoreQuestion;
                             scoreQuestion = 1;
 
@@ -125,7 +181,7 @@ public class QuestionActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this,"Нет вопросов", Toast.LENGTH_SHORT).show();
         }
-
+*/
 
     }
 

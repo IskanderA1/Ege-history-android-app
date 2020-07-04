@@ -1,18 +1,22 @@
 package com.example.egehistory;
 
+import android.graphics.Bitmap;
+
 public class DbModelClass {
     int _id;
     String name;
     String startDate;
     String finishDate;
     String description;
+    String image;
 
-    public DbModelClass(int _id, String name, String startDate, String finishDate, String description) {
+    public DbModelClass(int _id, String name, String startDate, String finishDate, String description,String image) {
         this._id = _id;
         this.name = name;
         this.startDate = startDate;
         this.finishDate = finishDate;
         this.description = description;
+        this.image = image;
     }
 
     public int get_id() {
@@ -55,4 +59,10 @@ public class DbModelClass {
         this.description = description;
     }
 
+    public String getImage() {
+        return image;
+    }
+    public void setImage(String image) {
+        this.image = image;
+    }
 }
