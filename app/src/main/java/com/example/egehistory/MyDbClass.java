@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class MyDbClass extends SQLiteAssetHelper {
 
-    private static final String DATABASE_NAME = "MonarchDB1.db";
+    private static final String DATABASE_NAME = "MonarchDB3.db";
     private static final int DATABASE_VERSION = 1;
     Context context;
     public MyDbClass(Context context) {

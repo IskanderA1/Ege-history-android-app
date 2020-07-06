@@ -1,20 +1,24 @@
 package com.example.egehistory;
 
-import android.graphics.Bitmap;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DbModelClass {
     int _id;
     String name;
-    String startDate;
-    String finishDate;
+    String trueAnswer;
+    String falseAnswer;
     String description;
     String image;
 
-    public DbModelClass(int _id, String name, String startDate, String finishDate, String description,String image) {
+
+    public DbModelClass(int _id, String name, String trueAnswer, String falseAnswer, String description, String image) {
         this._id = _id;
         this.name = name;
-        this.startDate = startDate;
-        this.finishDate = finishDate;
+        this.trueAnswer = trueAnswer;
+        this.falseAnswer = falseAnswer;
         this.description = description;
         this.image = image;
     }
@@ -35,20 +39,20 @@ public class DbModelClass {
         this.name = name;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public String getTrueAnswer() {
+        return trueAnswer;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setTrueAnswer(String trueAnswer) {
+        this.trueAnswer = trueAnswer;
     }
 
     public String getFinishDate() {
-        return finishDate;
+        return falseAnswer;
     }
 
     public void setFinishDate(String finishDate) {
-        this.finishDate = finishDate;
+        this.falseAnswer = finishDate;
     }
 
     public String getDescription() {
@@ -65,4 +69,13 @@ public class DbModelClass {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public String getFalseAnswer(int i){
+        String[] firstAnswerArr = falseAnswer.trim().split("\\|");
+        Log.d("GetFalseANSWER", Arrays.toString(firstAnswerArr));
+
+        return firstAnswerArr[i];
+    }
+
+
 }

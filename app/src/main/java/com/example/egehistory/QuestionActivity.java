@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lorentzos.flingswipe.FlingCardListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -56,19 +59,21 @@ public class QuestionActivity extends AppCompatActivity {
         mDbClass = new MyDbClass(this);
         mDbModelClassArrayList = new ArrayList<>();
         mDbModelClassArrayList = mDbClass.getAllData();
-
-        Log.d("Test",String.valueOf(mDbModelClassArrayList.size()));
-        //Collections.shuffle(mDbModelClassArrayList);
-        arrayAdapter = new QuestionAdapter(this, mDbModelClassArrayList);
-
-
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+
+        Log.d("SIZE_DB",String.valueOf(mDbModelClassArrayList.size()));
+        Collections.shuffle(mDbModelClassArrayList);
+        arrayAdapter = new QuestionAdapter(this, mDbModelClassArrayList,flingContainer);
+
+
+
 
 
 
 
         flingContainer.setAdapter(arrayAdapter);
-        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+
+       flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
@@ -102,6 +107,8 @@ public class QuestionActivity extends AppCompatActivity {
                 view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
         });
+
+
 
 
 
@@ -189,9 +196,9 @@ public class QuestionActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        SharedPreferences.Editor editor = mSettings.edit();
+        /*SharedPreferences.Editor editor = mSettings.edit();
         editor.putInt(APP_PREFERENCES_NAME, Score);
-        editor.apply();
+        editor.apply();*/
 
     }
 

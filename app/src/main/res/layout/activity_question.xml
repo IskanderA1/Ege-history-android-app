@@ -21,7 +21,9 @@
                 android:layout_height="match_parent"
                 app:rotation_degrees="16"
                 app:max_visible="4"
-                app:min_adapter_stack="6" />
+                app:min_adapter_stack="6"
+
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
