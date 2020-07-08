@@ -63,7 +63,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         Log.d("SIZE_DB",String.valueOf(mDbModelClassArrayList.size()));
         Collections.shuffle(mDbModelClassArrayList);
-        arrayAdapter = new QuestionAdapter(this, mDbModelClassArrayList,flingContainer);
+        arrayAdapter = new QuestionAdapter(this, mDbModelClassArrayList);
 
 
 
